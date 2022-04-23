@@ -77,10 +77,6 @@ public class AIController : MonoBehaviour {
     void Start() {
         selfTarget = plane.GetComponent<Target>();
 
-        if (plane.Target != null) {
-            targetPlane = plane.Target.GetComponent<Plane>();
-        }
-
         dodgeOffsets = new List<Vector3>();
     }
 
@@ -101,24 +97,19 @@ public class AIController : MonoBehaviour {
     }
 
     Vector3 GetTargetPosition() {
-        if (plane.Target == null) {
-            return plane.Rigidbody.position;
-        }
+         return plane.Rigidbody.position;
+        
 
-        var targetPosition = plane.Target.Position;
+        //var targetPosition = plane.Target.Position;
 
-        if (Vector3.Distance(targetPosition, plane.Rigidbody.position) < cannonRange) {
-            return Utilities.FirstOrderIntercept(plane.Rigidbody.position, plane.Rigidbody.velocity, bulletSpeed, targetPosition, plane.Target.Velocity);
-        }
+        //if (Vector3.Distance(targetPosition, plane.Rigidbody.position) < cannonRange) {
+        //    return Utilities.FirstOrderIntercept(plane.Rigidbody.position, plane.Rigidbody.velocity, bulletSpeed, targetPosition, plane.Target.Velocity);
+        //}
 
-        return targetPosition;
+        //return targetPosition;
     }
 
     Vector3 CalculateSteering(float dt, Vector3 targetPosition) {
-        if (plane.Target != null && targetPlane.Health == 0) {
-            return new Vector3();
-        }
-
         var error = targetPosition - plane.Rigidbody.position;
         error = Quaternion.Inverse(plane.Rigidbody.rotation) * error;   //transform into local space
 
@@ -149,44 +140,6 @@ public class AIController : MonoBehaviour {
         return input;
     }
 
-    Vector3 GetMissileDodgePosition(float dt, Missile missile) {
-        dodgeTimer = Mathf.Max(0, dodgeTimer - dt);
-        var missilePos = missile.Rigidbody.position;
-
-        var dist = Mathf.Max(minMissileDodgeDistance, Vector3.Distance(missilePos, plane.Rigidbody.position));
-
-        //calculate dodge points
-        if (dodgeTimer == 0) {
-            var missileForward = missile.Rigidbody.rotation * Vector3.forward;
-            dodgeOffsets.Clear();
-
-            //4 dodge points: up, down, left, right
-
-            dodgeOffsets.Add(new Vector3(0, dist, 0));
-            dodgeOffsets.Add(new Vector3(0, -dist, 0));
-            dodgeOffsets.Add(Vector3.Cross(missileForward, Vector3.up) * dist);
-            dodgeOffsets.Add(Vector3.Cross(missileForward, Vector3.up) * -dist);
-
-            dodgeTimer = dodgeUpdateInterval;
-        }
-
-        //select nearest dodge point
-        float min = float.PositiveInfinity;
-        Vector3 minDodge = missilePos + dodgeOffsets[0];
-
-        foreach (var offset in dodgeOffsets) {
-            var dodgePosition = missilePos + offset;
-            var offsetDist = Vector3.Distance(dodgePosition, plane.Rigidbody.position);
-
-            if (offsetDist < min) {
-                minDodge = dodgePosition;
-                min = offsetDist;
-            }
-        }
-
-        return minDodge;
-    }
-
     float CalculateThrottle(float minSpeed, float maxSpeed) {
         float input = 0;
 
@@ -199,73 +152,7 @@ public class AIController : MonoBehaviour {
         return input;
     }
 
-    void CalculateWeapons(float dt) {
-        if (plane.Target == null) return;
-
-        if (canUseMissiles) {
-            CalculateMissiles(dt);
-        }
-
-        if (canUseCannon) {
-            CalculateCannon(dt);
-        }
-    }
-
-    void CalculateMissiles(float dt) {
-        missileDelayTimer = Mathf.Max(0, missileDelayTimer - dt);
-        missileCooldownTimer = Mathf.Max(0, missileCooldownTimer - dt);
-
-        var error = plane.Target.Position - plane.Rigidbody.position;
-        var range = error.magnitude;
-        var targetDir = error.normalized;
-        var targetAngle = Vector3.Angle(targetDir, plane.Rigidbody.rotation * Vector3.forward);
-
-        if (!plane.MissileLocked || !(targetAngle < missileMaxFireAngle || (180f - targetAngle) < missileMaxFireAngle)) {
-            //don't fire if not locked or target is too off angle
-            //can fire if angle is close to 0 (chasing) or 180 (head on)
-            missileDelayTimer = missileLockFiringDelay;
-        }
-
-        if (range < missileMaxRange && range > missileMinRange && missileDelayTimer == 0 && missileCooldownTimer == 0) {
-            plane.TryFireMissile();
-            missileCooldownTimer = missileFiringCooldown;
-        }
-    }
-
-    void CalculateCannon(float dt) {
-        if (targetPlane.Health == 0) {
-            cannonFiring = false;
-            return;
-        }
-
-        if (cannonFiring) {
-            cannonBurstTimer = Mathf.Max(0, cannonBurstTimer - dt);
-
-            if (cannonBurstTimer == 0) {
-                cannonFiring = false;
-                cannonCooldownTimer = cannonBurstCooldown;
-                plane.SetCannonInput(false);
-            }
-        } else {
-            cannonCooldownTimer = Mathf.Max(0, cannonCooldownTimer - dt);
-
-            var targetPosition = Utilities.FirstOrderIntercept(plane.Rigidbody.position, plane.Rigidbody.velocity, bulletSpeed, plane.Target.Position, plane.Target.Velocity);
-
-            var error = targetPosition - plane.Rigidbody.position;
-            var range = error.magnitude;
-            var targetDir = error.normalized;
-            var targetAngle = Vector3.Angle(targetDir, plane.Rigidbody.rotation * Vector3.forward);
-
-            if (range < cannonRange && targetAngle < cannonMaxFireAngle && cannonCooldownTimer == 0) {
-                cannonFiring = true;
-                cannonBurstTimer = cannonBurstLength;
-                plane.SetCannonInput(true);
-            }
-        }
-    }
-
     void FixedUpdate() {
-        if (plane.Dead) return;
         var dt = Time.fixedDeltaTime;
 
         Vector3 steering;
@@ -278,16 +165,9 @@ public class AIController : MonoBehaviour {
             steering = AvoidGround();
             throttle = CalculateThrottle(groundAvoidanceMinSpeed, groundAvoidanceMaxSpeed);
         } else {
-            Vector3 targetPosition;
+            Vector3 targetPosition = GetTargetPosition();
 
-            var incomingMissile = selfTarget.GetIncomingMissile();
-            if (incomingMissile != null) {
-                targetPosition = GetMissileDodgePosition(dt, incomingMissile);
-            } else {
-                targetPosition = GetTargetPosition();
-            }
-
-            if (incomingMissile == null && (plane.LocalVelocity.z < recoverSpeedMin || isRecoveringSpeed)) {
+            if ((plane.LocalVelocity.z < recoverSpeedMin || isRecoveringSpeed)) {
                 isRecoveringSpeed = plane.LocalVelocity.z < recoverSpeedMax;
 
                 steering = RecoverSpeed();
@@ -300,7 +180,5 @@ public class AIController : MonoBehaviour {
 
         plane.SetControlInput(steering);
         plane.SetThrottleInput(throttle);
-
-        CalculateWeapons(dt);
     }
 }

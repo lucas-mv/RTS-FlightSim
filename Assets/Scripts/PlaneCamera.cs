@@ -55,24 +55,13 @@ public class PlaneCamera : MonoBehaviour {
 
         var cameraOffset = this.cameraOffset;
 
-        if (plane.Dead) {
-            look += lookInput * deathSensitivity * Time.deltaTime;
-            look.x = (look.x + 360f) % 360f;
-            look.y = Mathf.Clamp(look.y, -lookAngle.y, lookAngle.y);
+        var targetLookAngle = Vector2.Scale(lookInput, lookAngle);
+        lookAverage = (lookAverage * (1 - lookAlpha)) + (targetLookAngle * lookAlpha);
 
-            lookAverage = look;
-            avAverage = new Vector3();
+        var angularVelocity = plane.LocalAngularVelocity;
+        angularVelocity.z = -angularVelocity.z;
 
-            cameraOffset = deathOffset;
-        } else {
-            var targetLookAngle = Vector2.Scale(lookInput, lookAngle);
-            lookAverage = (lookAverage * (1 - lookAlpha)) + (targetLookAngle * lookAlpha);
-
-            var angularVelocity = plane.LocalAngularVelocity;
-            angularVelocity.z = -angularVelocity.z;
-
-            avAverage = (avAverage * (1 - movementAlpha)) + (angularVelocity * movementAlpha);
-        }
+        avAverage = (avAverage * (1 - movementAlpha)) + (angularVelocity * movementAlpha);
 
         var rotation = Quaternion.Euler(-lookAverage.y, lookAverage.x, 0);  //get rotation from camera input
         var turningRotation = Quaternion.Euler(new Vector3(-avAverage.x, -avAverage.y, avAverage.z) * movementScale);   //get rotation from plane's AV

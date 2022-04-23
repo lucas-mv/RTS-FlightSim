@@ -75,24 +75,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void OnFireMissile(InputAction.CallbackContext context) {
-        if (plane == null) return;
-
-        if (context.phase == InputActionPhase.Performed) {
-            plane.TryFireMissile();
-        }
-    }
-
-    public void OnFireCannon(InputAction.CallbackContext context) {
-        if (plane == null) return;
-
-        if (context.phase == InputActionPhase.Started) {
-            plane.SetCannonInput(true);
-        } else if (context.phase == InputActionPhase.Canceled) {
-            plane.SetCannonInput(false);
-        }
-    }
-
     public void OnToggleAI(InputAction.CallbackContext context) {
         if (plane == null) return;
 
