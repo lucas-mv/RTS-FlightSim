@@ -96,6 +96,7 @@ public class Plane : MonoBehaviour {
     public float AngleOfAttack { get; private set; }
     public float AngleOfAttackYaw { get; private set; }
     public bool AirbrakeDeployed { get; private set; }
+    public PlaneState State = PlaneState.Flying;
 
     public bool FlapsDeployed {
         get {
@@ -236,6 +237,7 @@ public class Plane : MonoBehaviour {
     }
 
     void UpdateLift() {
+        if (State != PlaneState.Flying) return;
         if (LocalVelocity.sqrMagnitude < 1f) return;
 
         float flapsLiftPower = FlapsDeployed ? this.flapsLiftPower : 0;
@@ -364,21 +366,37 @@ public class Plane : MonoBehaviour {
         CalculateState(dt);
     }
 
-    void OnCollisionEnter(Collision collision) {
-        for (int i = 0; i < collision.contactCount; i++) {
-            var contact = collision.contacts[i];
+    #region Collisions
 
-            if (landingGear.Contains(contact.thisCollider)) {
-                return;
-            }
+    public void OnCrashCollision(Collider other)
+    {
+        if (State == PlaneState.Landing) return;
 
-            Rigidbody.isKinematic = true;
-            Rigidbody.position = contact.point;
-            Rigidbody.rotation = Quaternion.Euler(0, Rigidbody.rotation.eulerAngles.y, 0);
+        State = PlaneState.Crashed;
+        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit);
+        Debug.Log("Plane crashed!");
 
-            crashEffects.SetActive(true);
+        Rigidbody.isKinematic = true;
+        Rigidbody.position = hit.point;
+        Rigidbody.rotation = Quaternion.Euler(0, Rigidbody.rotation.eulerAngles.y, 0);
 
-            return;
-        }
+        crashEffects.SetActive(true);
     }
+
+    public void OnLandingGearCollision(Collider other)
+    {
+        if (other.tag != "LandingRunway") return;
+        if (State == PlaneState.Crashed) return;
+
+        State = PlaneState.Landing;
+        Debug.Log("Plane landing...");
+    }
+
+    public void OnLeftLandingRunway()
+    {
+        State = PlaneState.Flying;
+        Debug.Log("Plane left landing runway!");
+    }
+
+    #endregion
 }
