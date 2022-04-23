@@ -75,6 +75,8 @@ public class Plane : MonoBehaviour {
     bool flapsDeployed;
     [SerializeField]
     float initialSpeed;
+    [SerializeField]
+    GameObject crashEffects;
 
     new PlaneAnimation animation;
 
@@ -373,6 +375,8 @@ public class Plane : MonoBehaviour {
             Rigidbody.isKinematic = true;
             Rigidbody.position = contact.point;
             Rigidbody.rotation = Quaternion.Euler(0, Rigidbody.rotation.eulerAngles.y, 0);
+
+            crashEffects.SetActive(true);
 
             return;
         }
