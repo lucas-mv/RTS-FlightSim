@@ -1705,7 +1705,7 @@ GameObject:
   - component: {fileID: 2515223684704408108}
   - component: {fileID: 3737572916587997159}
   m_Layer: 8
-  m_Name: F15
+  m_Name: Airplane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -649,7 +649,7 @@ PrefabInstance:
     - target: {fileID: 8849735085998360814, guid: 868b13a7be7adb148b89b9bcf56bb6a6,
         type: 3}
       propertyPath: m_Name
-      value: F15 (1)
+      value: EnemyAirplane
       objectReference: {fileID: 0}
     - target: {fileID: 8849735085998360814, guid: 868b13a7be7adb148b89b9bcf56bb6a6,
         type: 3}
@@ -2115,7 +2115,7 @@ Skybox:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 999789666}
   m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 12ccb828343c3405fb94289774b51aad, type: 2}
+  m_CustomSkybox: {fileID: 2100000, guid: 4c12da8dc5dced74e838120da11725a0, type: 2}
 --- !u!1 &1041648561
 GameObject:
   m_ObjectHideFlags: 0
@@ -3711,7 +3711,7 @@ PrefabInstance:
     - target: {fileID: 8849735085998360814, guid: 868b13a7be7adb148b89b9bcf56bb6a6,
         type: 3}
       propertyPath: m_Name
-      value: F15
+      value: PlayerAirplane
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 868b13a7be7adb148b89b9bcf56bb6a6, type: 3}
