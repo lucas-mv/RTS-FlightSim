@@ -364,6 +364,11 @@ public class Plane : MonoBehaviour {
 
         //calculate again, so that other systems can read this plane's state
         CalculateState(dt);
+
+        if(State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
+        {
+            Debug.Log("Successfully landed!");
+        }
     }
 
     #region Collisions
