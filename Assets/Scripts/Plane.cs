@@ -79,6 +79,8 @@ public class Plane : MonoBehaviour {
     GameObject crashEffects;
     [SerializeField]
     GameObject celebrationEffects;
+    [SerializeField]
+    GameObject planeModel;
 
     new PlaneAnimation animation;
 
@@ -388,6 +390,7 @@ public class Plane : MonoBehaviour {
         Rigidbody.isKinematic = true;
         Rigidbody.rotation = Quaternion.Euler(0, Rigidbody.rotation.eulerAngles.y, 0);
 
+        planeModel.SetActive(false);
         crashEffects.SetActive(true);
     }
 

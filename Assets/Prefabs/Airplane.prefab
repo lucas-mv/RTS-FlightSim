@@ -1572,7 +1572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7622234884004090431}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -1.3360021, z: 1.3088932}
+  m_LocalPosition: {x: 1.13, y: -1.3360021, z: 1.3088932}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 3239613873630571054}
@@ -1772,7 +1772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8496231328968917689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.76, y: -1.3360021, z: 0.32889366}
+  m_LocalPosition: {x: -1.41, y: -1.3360021, z: 1.308893}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 3239613873630571054}
@@ -2313,6 +2313,7 @@ MonoBehaviour:
   initialSpeed: 0
   crashEffects: {fileID: 4449202901020804535}
   celebrationEffects: {fileID: 5079732066823051011}
+  planeModel: {fileID: 1987525966499286095}
   State: 0
 --- !u!114 &3168297468136084144
 MonoBehaviour:
@@ -2652,6 +2653,12 @@ PrefabInstance:
 --- !u!4 &1215634326062782197 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1856216891051664401, guid: 99078e3151f42fd42949f97b0b73bd7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 656495952085431012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1987525966499286095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1335682057254649515, guid: 99078e3151f42fd42949f97b0b73bd7b,
     type: 3}
   m_PrefabInstance: {fileID: 656495952085431012}
   m_PrefabAsset: {fileID: 0}
