@@ -3,5 +3,6 @@ public enum PlaneState
 {
     Flying,
     Landing,
-    Crashed
+    Crashed,
+    Landed
 }

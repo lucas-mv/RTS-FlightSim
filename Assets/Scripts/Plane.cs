@@ -77,6 +77,8 @@ public class Plane : MonoBehaviour {
     float initialSpeed;
     [SerializeField]
     GameObject crashEffects;
+    [SerializeField]
+    GameObject celebrationEffects;
 
     new PlaneAnimation animation;
 
@@ -367,7 +369,9 @@ public class Plane : MonoBehaviour {
 
         if(State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
         {
+            State = PlaneState.Landed;
             Debug.Log("Successfully landed!");
+            celebrationEffects.SetActive(true);
         }
     }
 
