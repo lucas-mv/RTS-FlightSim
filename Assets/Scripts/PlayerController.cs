@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-    [SerializeField]
-    new Camera camera;
-    [SerializeField]
-    Plane plane;
-    [SerializeField]
-    PlaneHUD planeHUD;
+    [SerializeField] SceneController sceneController;
+    [SerializeField] new Camera camera;
+    [SerializeField] Plane plane;
+    [SerializeField] PlaneHUD planeHUD;
 
     Vector3 controlInput;
     PlaneCamera planeCamera;
@@ -81,6 +80,14 @@ public class PlayerController : MonoBehaviour {
         if (aiController != null) {
             aiController.enabled = !aiController.enabled;
         }
+    }
+
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        if (plane == null) return;
+
+        Debug.Log("Restarting...");
+        sceneController.RestartMainScene();
     }
 
     void Update() {
