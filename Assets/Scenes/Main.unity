@@ -4057,21 +4057,24 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'L Stick - Roll/Pitch
+  m_Text: '"WASD" - Roll/Pitch
 
-    R Stick - Camera
+    "QE" - Yaw
 
-    Triggers - Yaw
+    "]" - Throttle Up
 
-    R
-    Bumper - Throttle Up
+    "[" -
+    Throttle Down (Hold for Airbrake)
 
-    L Bumper - Throttle Down (Hold for Airbrake)
+    "Z"- Toggle flaps and landing gear OFF
 
-    D-Pad
-    Down - Toggle flaps and landing gear
+    "X"-
+    Toggle flaps and landing gear ON
 
-    H - Close help dialog'
+    "H" - Close help dialog
+
+    "R" - Restart
+    game'
 --- !u!222 &1435412853
 CanvasRenderer:
   m_ObjectHideFlags: 0

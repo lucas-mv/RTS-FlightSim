@@ -371,7 +371,6 @@ public class Plane : MonoBehaviour {
 
         if(State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
         {
-            State = PlaneState.Landed;
             Debug.Log("Successfully landed!");
             celebrationEffects.SetActive(true);
         }
