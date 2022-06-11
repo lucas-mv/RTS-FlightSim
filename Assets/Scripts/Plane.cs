@@ -366,6 +366,12 @@ public class Plane : MonoBehaviour {
 
     void CheckLanding()
     {
+        if (State == PlaneState.Landing && !LandingGearDeployed)
+        {
+            OnCrashCollision();
+            return;
+        }
+
         if (State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
         {
             Debug.Log("Successfully landed!");
@@ -375,7 +381,6 @@ public class Plane : MonoBehaviour {
 
     void FixedUpdate() {
         // Gameplay and sanity checks
-        if(State == PlaneState.Landing && !LandingGearDeployed) OnCrashCollision();
         CheckLanding();
 
         // Jobs execution
