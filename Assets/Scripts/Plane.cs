@@ -17,6 +17,7 @@ public class Plane : MonoBehaviour {
     [SerializeField] Color _displayAlertColor;
     [SerializeField] Color _displayNormalColor;
     [SerializeField] Text _landingGearText;
+    [SerializeField] Text _lowAltitudeAlertText;
 
     [Header("Lift")]
     [SerializeField]
@@ -367,6 +368,7 @@ public class Plane : MonoBehaviour {
         
         CalculateMovement();
         CheckLanding();
+        CheckLowAltitude();
         CheckLandingGear();
     }
 
@@ -403,9 +405,23 @@ public class Plane : MonoBehaviour {
         }
     }
 
+    void CheckLowAltitude()
+    {
+        const float lowAltitudeAlertY = 400;
+        if(_transform.position.y < lowAltitudeAlertY)
+        {
+            _lowAltitudeAlertText.color = _displayAlertColor;
+            _lowAltitudeAlertText.text = "LOW ALTITUDE";
+        }
+        else
+        {
+            _lowAltitudeAlertText.text = string.Empty;
+        }
+    }
+
     void CheckLandingGear()
     {
-        const float landingGearAlertY = 300;
+        const float landingGearAlertY = 250;
         if (LandingGearDeployed)
         {
             _landingGearText.color = _displayNormalColor;
