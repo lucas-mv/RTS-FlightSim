@@ -14,6 +14,7 @@ public class Plane : MonoBehaviour {
     float gLimitPitch;
 
     [Header("HUD alerts")]
+    [SerializeField] PlaneHUD _hudController;
     [SerializeField] Color _displayAlertColor;
     [SerializeField] Color _displayNormalColor;
     [SerializeField] Text _landingGearText;
@@ -363,13 +364,32 @@ public class Plane : MonoBehaviour {
         );
     }
 
+    void CheckLanding()
+    {
+        if (State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
+        {
+            Debug.Log("Successfully landed!");
+            celebrationEffects.SetActive(true);
+        }
+    }
+
     void FixedUpdate() {
+        // Gameplay and sanity checks
         if(State == PlaneState.Landing && !LandingGearDeployed) OnCrashCollision();
-        
-        CalculateMovement();
         CheckLanding();
+
+        // Jobs execution
+        CalculateMovement();
+        UpdateHUD();
         CheckLowAltitude();
         CheckLandingGear();
+    }
+
+    #region RTS Jobs
+
+    void UpdateHUD()
+    {
+        _hudController.UpdateHUD();
     }
 
     void CalculateMovement()
@@ -394,15 +414,6 @@ public class Plane : MonoBehaviour {
 
         //calculate again, so that other systems can read this plane's state
         CalculateState(dt);
-    }
-
-    void CheckLanding()
-    {
-        if (State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
-        {
-            Debug.Log("Successfully landed!");
-            celebrationEffects.SetActive(true);
-        }
     }
 
     void CheckLowAltitude()
@@ -442,6 +453,8 @@ public class Plane : MonoBehaviour {
             _landingGearText.text = string.Empty;
         }
     }
+
+    #endregion
 
     #region Collisions
 

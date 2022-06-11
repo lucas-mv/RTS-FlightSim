@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlaneHUD : MonoBehaviour {
     [SerializeField]
-    float updateRate;
-    [SerializeField]
     Color normalColor;
     [SerializeField]
     Color lockColor;
@@ -209,7 +207,7 @@ public class PlaneHUD : MonoBehaviour {
         compass.UpdateColor(normalColor);
     }
 
-    void LateUpdate() {
+    public void UpdateHUD() {
         if (plane == null) return;
         if (camera == null) return;
 
@@ -227,12 +225,5 @@ public class PlaneHUD : MonoBehaviour {
         UpdateAirspeed();
         UpdateAltitude();
         UpdateWarnings();
-
-        //update these elements at reduced rate to make reading them easier
-        if (Time.time > lastUpdateTime + (1f / updateRate)) {
-            UpdateAOA();
-            UpdateGForce();
-            lastUpdateTime = Time.time;
-        }
     }
 }

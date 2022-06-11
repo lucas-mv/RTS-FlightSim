@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 193187215}
   - component: {fileID: 193187219}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: HUDCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,7 +674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe603688705746944839053187df62da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateRate: 10
   normalColor: {r: 0, g: 1, b: 0, a: 1}
   lockColor: {r: 1, g: 0, b: 0, a: 1}
   helpDialogs:
@@ -6317,6 +6316,11 @@ PrefabInstance:
       propertyPath: _lowAltitudeAlertText
       value: 
       objectReference: {fileID: 1530523897}
+    - target: {fileID: 1030071069971577036, guid: 868b13a7be7adb148b89b9bcf56bb6a6,
+        type: 3}
+      propertyPath: _hudController
+      value: 
+      objectReference: {fileID: 193187219}
     - target: {fileID: 3737572916587997159, guid: 868b13a7be7adb148b89b9bcf56bb6a6,
         type: 3}
       propertyPath: m_Enabled
