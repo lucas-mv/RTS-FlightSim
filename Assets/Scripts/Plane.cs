@@ -363,6 +363,8 @@ public class Plane : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        if(State == PlaneState.Landing && !LandingGearDeployed) OnCrashCollision();
+        
         CalculateMovement();
         CheckLanding();
         CheckLandingGear();
@@ -427,7 +429,7 @@ public class Plane : MonoBehaviour {
 
     #region Collisions
 
-    public void OnCrashCollision(Collider other)
+    public void OnCrashCollision(Collider other = null)
     {
         if (State == PlaneState.Landing && LandingGearDeployed) return;
 
