@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 
         planeCamera.SetPlane(plane);
     }
+
     public void OnToggleHelp(InputAction.CallbackContext context) {
         if (plane == null) return;
 
@@ -88,6 +89,13 @@ public class PlayerController : MonoBehaviour {
 
         Debug.Log("Restarting...");
         sceneController.RestartMainScene();
+    }
+
+    public void OnToggleLandingGear(InputAction.CallbackContext context)
+    {
+        if (plane == null) return;
+        Debug.Log("Toggling landing gear");
+        plane.ToggleLandingGear();
     }
 
     void Update() {

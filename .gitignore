@@ -66,3 +66,6 @@ Assets/Scenes/Main/
 
 Assets/Scenes/Main.meta
 .vsconfig
+
+**/win*
+**/.DS_Store

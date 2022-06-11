@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Plane : MonoBehaviour {
     [SerializeField]
@@ -11,6 +12,11 @@ public class Plane : MonoBehaviour {
     float gLimit;
     [SerializeField]
     float gLimitPitch;
+
+    [Header("HUD alerts")]
+    [SerializeField] Color _displayAlertColor;
+    [SerializeField] Color _displayNormalColor;
+    [SerializeField] Text _landingGearText;
 
     [Header("Lift")]
     [SerializeField]
@@ -100,6 +106,7 @@ public class Plane : MonoBehaviour {
     public float AngleOfAttack { get; private set; }
     public float AngleOfAttackYaw { get; private set; }
     public bool AirbrakeDeployed { get; private set; }
+    public bool LandingGearDeployed { get; set; }
     public PlaneState State = PlaneState.Flying;
 
     public bool FlapsDeployed {
@@ -115,7 +122,10 @@ public class Plane : MonoBehaviour {
         }
     }
 
+    Transform _transform;
+
     void Start() {
+        _transform = transform;
         animation = GetComponent<PlaneAnimation>();
         Rigidbody = GetComponent<Rigidbody>();
 
@@ -132,6 +142,11 @@ public class Plane : MonoBehaviour {
 
     public void SetControlInput(Vector3 input) {
         controlInput = Vector3.ClampMagnitude(input, 1);
+    }
+
+    public void ToggleLandingGear()
+    {
+        LandingGearDeployed = !LandingGearDeployed;
     }
 
     public void ToggleFlaps() {
@@ -348,6 +363,13 @@ public class Plane : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        CalculateMovement();
+        CheckLanding();
+        CheckLandingGear();
+    }
+
+    void CalculateMovement()
+    {
         float dt = Time.fixedDeltaTime;
 
         //calculate at start, to capture any changes that happened externally
@@ -362,17 +384,44 @@ public class Plane : MonoBehaviour {
         UpdateThrust();
         UpdateLift();
         UpdateSteering(dt);
-        
+
         UpdateDrag();
         UpdateAngularDrag();
 
         //calculate again, so that other systems can read this plane's state
         CalculateState(dt);
+    }
 
-        if(State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
+    void CheckLanding()
+    {
+        if (State == PlaneState.Landing && LocalVelocity.magnitude <= 0.0001)
         {
             Debug.Log("Successfully landed!");
             celebrationEffects.SetActive(true);
+        }
+    }
+
+    void CheckLandingGear()
+    {
+        const float landingGearAlertY = 300;
+        if (LandingGearDeployed)
+        {
+            _landingGearText.color = _displayNormalColor;
+            _landingGearText.text = "LANDING GEAR DEPLOYED";
+            return;
+        }
+
+        
+        if (_transform.position.y < landingGearAlertY)
+        {
+            Debug.Log("Landing gear should be active!");
+            _landingGearText.color = _displayAlertColor;
+            _landingGearText.text = "DEPLOY LANDING GEAR";
+        }
+        else
+        {
+            _landingGearText.color = _displayNormalColor;
+            _landingGearText.text = string.Empty;
         }
     }
 
@@ -380,10 +429,9 @@ public class Plane : MonoBehaviour {
 
     public void OnCrashCollision(Collider other)
     {
-        if (State == PlaneState.Landing) return;
+        if (State == PlaneState.Landing && LandingGearDeployed) return;
 
         State = PlaneState.Crashed;
-        Physics.Raycast(transform.position, transform.forward, out RaycastHit hit);
         Debug.Log("Plane crashed!");
 
         Rigidbody.isKinematic = true;
@@ -397,6 +445,7 @@ public class Plane : MonoBehaviour {
     {
         if (other.tag != "LandingRunway") return;
         if (State == PlaneState.Crashed) return;
+        if (!LandingGearDeployed) return;
 
         State = PlaneState.Landing;
         Debug.Log("Plane landing...");

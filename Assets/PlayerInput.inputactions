@@ -84,6 +84,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleLandingGear",
+                    "type": "Button",
+                    "id": "55827d8d-f29a-41a5-9fac-68712b85ab1b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -392,6 +400,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12841557-49b5-47ab-b5f3-7b3dfb01fb6c",
+                    "path": "<Keyboard>/#(g)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleLandingGear",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
