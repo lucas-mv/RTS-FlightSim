@@ -2809,8 +2809,7 @@ MonoBehaviour:
 
     - Takeoff speed is ~130 knots
 
-    - Using airbrake
-    with landing gear down will activate wheel brake'
+'
 --- !u!222 &851469866
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4872,15 +4871,12 @@ MonoBehaviour:
     "[" -
     Throttle Down (Hold for Airbrake)
 
-    "Z"- Toggle flaps and landing gear OFF
+    "G"- Toggle landing gear
 
-    "X"-
-    Toggle flaps and landing gear ON
+    "H" - Close
+    help dialog
 
-    "H" - Close help dialog
-
-    "R" - Restart
-    game'
+    "R" - Restart game'
 --- !u!222 &1435412853
 CanvasRenderer:
   m_ObjectHideFlags: 0
