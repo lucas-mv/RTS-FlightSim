@@ -128,11 +128,22 @@ public class PlaneAnimation : MonoBehaviour {
         airbrake.localRotation = CalculatePose(airbrake, Quaternion.Euler(-airbrakePosition * airbrakeDeflection, 0, 0));
     }
 
+    void UpdateFlaps(float dt) {
+        var target = plane.FlapsDeployed ? 1 : 0;
+
+        flapsPosition = Utilities.MoveTo(flapsPosition, target, deflectionSpeed, dt);
+
+        foreach (var t in flaps) {
+            t.localRotation = CalculatePose(t, Quaternion.Euler(flapsPosition * flapsDeflection, 0, 0));
+        }
+    }
+
     void LateUpdate() {
         float dt = Time.deltaTime;
 
         UpdateAfterburners();
         UpdateControlSurfaces(dt);
         UpdateAirbrakes(dt);
+        UpdateFlaps(dt);
     }
 }

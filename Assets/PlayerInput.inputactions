@@ -46,6 +46,30 @@
                     "interactions": ""
                 },
                 {
+                    "name": "ToggleFlaps",
+                    "type": "Button",
+                    "id": "0e572958-b17b-4a43-950d-d9a9324fbc89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "FireMissile",
+                    "type": "Button",
+                    "id": "54bc0053-bbe2-45cd-80b6-dd2a4f0dee6d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "FireCannon",
+                    "type": "Button",
+                    "id": "cc901d01-643f-4c28-918b-23ed83f6433c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "ToggleAI",
                     "type": "Button",
                     "id": "b0d256fa-cc8c-4a22-925d-479ad7049947",
@@ -282,12 +306,78 @@
                 },
                 {
                     "name": "",
+                    "id": "8b4e38a0-f793-4d60-bcda-53f58cf07745",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlaps",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "c47bcdfe-69c5-4de6-9358-5476559478b8",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlaps",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "8931dd42-ceb2-4c24-879f-0cd693d263f2",
+                    "path": "<Keyboard>/#(z)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlaps",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "4b706efe-e6fe-4994-870c-95a7483367fe",
+                    "path": "<Keyboard>/#(x)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlaps",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
                     "id": "9f0a780e-ba4d-4467-a1fe-9234a00c0440",
                     "path": "<Keyboard>/h",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ToggleHelp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c854cd2e-491a-4639-9836-296333fced16",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireMissile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8cd153b-2c78-4690-b96d-88366b14cb64",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireCannon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
