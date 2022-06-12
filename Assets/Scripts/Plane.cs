@@ -76,6 +76,7 @@ public class Plane : MonoBehaviour {
     float airbrakeDrag;
 
     [Header("Misc")]
+    [SerializeField] RTSJobsController _jobsController;
     [SerializeField] EnemyPlaneController _enemyPlaneController;
     [SerializeField] List<Collider> landingGear;
     [SerializeField] PhysicMaterial landingGearBrakesMaterial;
@@ -131,6 +132,7 @@ public class Plane : MonoBehaviour {
         }
 
         Rigidbody.velocity = Rigidbody.rotation * new Vector3(0, 0, initialSpeed);
+        SetupRTSJobs();
     }
 
     public void SetThrottleInput(float input) {
@@ -374,19 +376,59 @@ public class Plane : MonoBehaviour {
         }
     }
 
+
     void FixedUpdate() {
         // Gameplay and sanity checks
         CheckLanding();
 
         // Jobs execution
-        CalculateMovement();
-        UpdateHUD();
-        CheckDistanceToEnemyPlanes();
-        CheckLowAltitude();
-        CheckLandingGear();
+        _jobsController.RunJobs();
     }
 
     #region RTS Jobs
+
+    void SetupRTSJobs()
+    {
+        _jobsController.SetupJob(new RTSJob
+        {
+            Name = "[MOVEMENT]",
+            Duration = 25,
+            Execute = CalculateMovement,
+            Priority = 1
+        });
+
+        _jobsController.SetupJob(new RTSJob
+        {
+            Name = "[UPDATE HUD]",
+            Duration = 25,
+            Execute = UpdateHUD,
+            Priority = 2
+        });
+
+        _jobsController.SetupJob(new RTSJob
+        {
+            Name = "[PROXIMITY ALERT]",
+            Duration = 25,
+            Execute = CheckDistanceToEnemyPlanes,
+            Priority = 3
+        });
+
+        _jobsController.SetupJob(new RTSJob
+        {
+            Name = "[LOW ALTITUDE]",
+            Duration = 20,
+            Execute = CheckLowAltitude,
+            Priority = 4
+        });
+
+        _jobsController.SetupJob(new RTSJob
+        {
+            Name = "[LANDING GEAR]",
+            Duration = 20,
+            Execute = CheckLandingGear,
+            Priority = 5
+        });
+    }
 
     void CheckDistanceToEnemyPlanes()
     {
