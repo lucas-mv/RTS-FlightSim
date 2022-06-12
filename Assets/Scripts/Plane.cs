@@ -75,8 +75,11 @@ public class Plane : MonoBehaviour {
     [SerializeField]
     float airbrakeDrag;
 
-    [Header("Misc")]
+    [Header("RTS jobs")]
+    [SerializeField] Text _skippedJobsText;
     [SerializeField] RTSJobsController _jobsController;
+
+    [Header("Misc")]
     [SerializeField] EnemyPlaneController _enemyPlaneController;
     [SerializeField] List<Collider> landingGear;
     [SerializeField] PhysicMaterial landingGearBrakesMaterial;
@@ -133,6 +136,10 @@ public class Plane : MonoBehaviour {
 
         Rigidbody.velocity = Rigidbody.rotation * new Vector3(0, 0, initialSpeed);
         SetupRTSJobs();
+
+        _landingGearText.text = string.Empty;
+        _lowAltitudeAlertText.text = string.Empty;
+        _proximityAlertText.text = string.Empty;
     }
 
     public void SetThrottleInput(float input) {
@@ -382,7 +389,7 @@ public class Plane : MonoBehaviour {
         CheckLanding();
 
         // Jobs execution
-        _jobsController.RunJobs();
+        _skippedJobsText.text = _jobsController.RunJobs();
     }
 
     #region RTS Jobs
@@ -432,16 +439,14 @@ public class Plane : MonoBehaviour {
 
     void CheckDistanceToEnemyPlanes()
     {
+        _proximityAlertText.text = string.Empty;
+
         const float referenceDistance = 1000;
         float enemyDistance = _enemyPlaneController.CalculateClosestDistance(transform.position, referenceDistance);
         if(enemyDistance < referenceDistance)
         {
             _proximityAlertText.color = _displayAlertColor;
             _proximityAlertText.text = "PLANE PROXIMITY ALERT";
-        }
-        else
-        {
-            _proximityAlertText.text = string.Empty;
         }
     }
 
@@ -476,20 +481,21 @@ public class Plane : MonoBehaviour {
 
     void CheckLowAltitude()
     {
+        _lowAltitudeAlertText.text = string.Empty;
+
         const float lowAltitudeAlertY = 400;
         if(_transform.position.y < lowAltitudeAlertY)
         {
             _lowAltitudeAlertText.color = _displayAlertColor;
             _lowAltitudeAlertText.text = "LOW ALTITUDE";
         }
-        else
-        {
-            _lowAltitudeAlertText.text = string.Empty;
-        }
     }
 
     void CheckLandingGear()
     {
+        _landingGearText.color = _displayNormalColor;
+        _landingGearText.text = string.Empty;
+
         const float landingGearAlertY = 250;
         if (LandingGearDeployed)
         {
@@ -497,18 +503,12 @@ public class Plane : MonoBehaviour {
             _landingGearText.text = "LANDING GEAR DEPLOYED";
             return;
         }
-
         
         if (_transform.position.y < landingGearAlertY)
         {
             Debug.Log("Landing gear should be active!");
             _landingGearText.color = _displayAlertColor;
             _landingGearText.text = "DEPLOY LANDING GEAR";
-        }
-        else
-        {
-            _landingGearText.color = _displayNormalColor;
-            _landingGearText.text = string.Empty;
         }
     }
 
