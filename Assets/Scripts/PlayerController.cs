@@ -49,14 +49,14 @@ public class PlayerController : MonoBehaviour {
         if (plane == null) return;
 
         var input = context.ReadValue<Vector2>();
-        controlInput = new Vector3(input.y, controlInput.y, -input.x);
+        controlInput = (new Vector3(input.y, controlInput.y, -input.x))/10;
     }
 
     public void OnYawInput(InputAction.CallbackContext context) {
         if (plane == null) return;
 
         var input = context.ReadValue<float>();
-        controlInput = new Vector3(controlInput.x, input, controlInput.z);
+        controlInput = (new Vector3(controlInput.x, input, controlInput.z))/10;
     }
 
     public void OnCameraInput(InputAction.CallbackContext context) {
