@@ -7,16 +7,19 @@ public class JobConfigurationSlider : MonoBehaviour
 {
     [SerializeField] string _name;
     [SerializeField] float _baseValue;
+    [SerializeField] int _priority;
 
     [Header("Components")]
     [SerializeField] Text _nameText;
     [SerializeField] Text _valueText;
+    [SerializeField] Text _priorityText;
     [SerializeField] Slider _valueSlider;
 
     void Start()
     {
         _valueSlider.value = _baseValue;
         _nameText.text = _name;
+        _priorityText.text = "Priority " + _priority.ToString();
     }
 
     public int GetValue()
