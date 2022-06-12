@@ -1115,7 +1115,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6560b98bbf73f458abe2bba136a309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneController: {fileID: 1923634563}
   camera: {fileID: 999789668}
   plane: {fileID: 716492603949598967}
   planeHUD: {fileID: 193187219}
@@ -7470,6 +7469,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ThrottleBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4819415882128910488, guid: 23e11d89a86f9e94a81b8c17a099347f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4819415882128910489, guid: 23e11d89a86f9e94a81b8c17a099347f,
         type: 3}
