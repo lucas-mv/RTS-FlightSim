@@ -1,7 +1,5 @@
 ﻿using System;
-public class NewClass
+public class Constants
 {
-    public NewClass()
-    {
-    }
+    public const string JOB_CONFIGURATIONS_PLAYER_PREFS_KEY = "JOB_CONFIGURATIONS";
 }

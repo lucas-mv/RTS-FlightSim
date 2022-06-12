@@ -396,10 +396,13 @@ public class Plane : MonoBehaviour {
 
     void SetupRTSJobs()
     {
+        string jobConfigurationJSON = PlayerPrefs.GetString(Constants.JOB_CONFIGURATIONS_PLAYER_PREFS_KEY);
+        JobConfigurationPlayerPref jobConfiguration = JsonUtility.FromJson<JobConfigurationPlayerPref>(jobConfigurationJSON);
+
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[MOVEMENT]",
-            Duration = 25,
+            Duration = jobConfiguration.MovementJobDuration,
             Execute = CalculateMovement,
             Priority = 1
         });
@@ -407,7 +410,7 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[UPDATE HUD]",
-            Duration = 25,
+            Duration = jobConfiguration.HUDJobDuration,
             Execute = UpdateHUD,
             Priority = 2
         });
@@ -415,7 +418,7 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[PROXIMITY ALERT]",
-            Duration = 25,
+            Duration = jobConfiguration.ProximityJobDuration,
             Execute = CheckDistanceToEnemyPlanes,
             Priority = 3
         });
@@ -423,7 +426,7 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[LOW ALTITUDE]",
-            Duration = 20,
+            Duration = jobConfiguration.AltitudeJobDuration,
             Execute = CheckLowAltitude,
             Priority = 4
         });
@@ -431,7 +434,7 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[LANDING GEAR]",
-            Duration = 5,
+            Duration = jobConfiguration.LandingGearJobDuration,
             Execute = CheckLandingGear,
             Priority = 5
         });

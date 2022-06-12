@@ -2,9 +2,14 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class SceneController : MonoBehaviour
+public static class SceneController
 {
-    public void RestartMainScene()
+    public static void GoToConfigurationScene()
+    {
+        SceneManager.LoadScene("ConfigureScene");
+    }
+
+    public static void StartGameScene()
     {
         SceneManager.LoadScene("Main");
     }

@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
-    [SerializeField] SceneController sceneController;
     [SerializeField] new Camera camera;
     [SerializeField] Plane plane;
     [SerializeField] PlaneHUD planeHUD;
@@ -88,7 +87,7 @@ public class PlayerController : MonoBehaviour {
         if (plane == null) return;
 
         Debug.Log("Restarting...");
-        sceneController.RestartMainScene();
+        SceneController.GoToConfigurationScene();
     }
 
     public void OnToggleLandingGear(InputAction.CallbackContext context)
