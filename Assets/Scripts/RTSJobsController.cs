@@ -34,6 +34,8 @@ public class RTSJobsController : MonoBehaviour
             job.Execute.Invoke();
         }
 
-        return string.Join(", ", skippedJobs.ToArray());
+        return skippedJobs.Any() ?
+            string.Join(", ", skippedJobs.ToArray()) :
+            "Jobs properly configured, no job will be skipped";
     }
 }

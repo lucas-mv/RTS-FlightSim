@@ -393,7 +393,7 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[LANDING GEAR]",
-            Duration = 20,
+            Duration = 5,
             Execute = CheckLandingGear,
             Priority = 5
         });
