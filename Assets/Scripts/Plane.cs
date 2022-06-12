@@ -19,6 +19,7 @@ public class Plane : MonoBehaviour {
     [SerializeField] Color _displayNormalColor;
     [SerializeField] Text _landingGearText;
     [SerializeField] Text _lowAltitudeAlertText;
+    [SerializeField] Text _proximityAlertText;
 
     [Header("Lift")]
     [SerializeField]
@@ -75,20 +76,14 @@ public class Plane : MonoBehaviour {
     float airbrakeDrag;
 
     [Header("Misc")]
-    [SerializeField]
-    List<Collider> landingGear;
-    [SerializeField]
-    PhysicMaterial landingGearBrakesMaterial;
-    [SerializeField]
-    bool flapsDeployed;
-    [SerializeField]
-    float initialSpeed;
-    [SerializeField]
-    GameObject crashEffects;
-    [SerializeField]
-    GameObject celebrationEffects;
-    [SerializeField]
-    GameObject planeModel;
+    [SerializeField] EnemyPlaneController _enemyPlaneController;
+    [SerializeField] List<Collider> landingGear;
+    [SerializeField] PhysicMaterial landingGearBrakesMaterial;
+    [SerializeField] bool flapsDeployed;
+    [SerializeField] float initialSpeed;
+    [SerializeField] GameObject crashEffects;
+    [SerializeField] GameObject celebrationEffects;
+    [SerializeField] GameObject planeModel;
 
     new PlaneAnimation animation;
 
@@ -386,11 +381,27 @@ public class Plane : MonoBehaviour {
         // Jobs execution
         CalculateMovement();
         UpdateHUD();
+        CheckDistanceToEnemyPlanes();
         CheckLowAltitude();
         CheckLandingGear();
     }
 
     #region RTS Jobs
+
+    void CheckDistanceToEnemyPlanes()
+    {
+        const float referenceDistance = 1000;
+        float enemyDistance = _enemyPlaneController.CalculateClosestDistance(transform.position, referenceDistance);
+        if(enemyDistance < referenceDistance)
+        {
+            _proximityAlertText.color = _displayAlertColor;
+            _proximityAlertText.text = "PLANE PROXIMITY ALERT";
+        }
+        else
+        {
+            _proximityAlertText.text = string.Empty;
+        }
+    }
 
     void UpdateHUD()
     {
