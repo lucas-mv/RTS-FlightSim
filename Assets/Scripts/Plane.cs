@@ -78,6 +78,7 @@ public class Plane : MonoBehaviour {
     [Header("RTS jobs")]
     [SerializeField] Text _skippedJobsText;
     [SerializeField] RTSJobsController _jobsController;
+    [SerializeField] Text _hyperPeriodText;
 
     [Header("Misc")]
     [SerializeField] EnemyPlaneController _enemyPlaneController;
@@ -386,10 +387,12 @@ public class Plane : MonoBehaviour {
 
     void FixedUpdate() {
         // Gameplay and sanity checks
+        _hyperPeriodText.text = _jobsController.GetHyperperiodText();
         CheckLanding();
 
         // Jobs execution
-        _skippedJobsText.text = _jobsController.RunJobs();
+        string jobExecutionReport = _jobsController.RunJobs();
+        if (!string.IsNullOrEmpty(jobExecutionReport)) _skippedJobsText.text = jobExecutionReport;
     }
 
     #region RTS Jobs
@@ -402,41 +405,46 @@ public class Plane : MonoBehaviour {
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[MOVEMENT]",
-            Duration = jobConfiguration.MovementJobDuration,
+            Duration = jobConfiguration.MovementDuration,
             Execute = CalculateMovement,
-            Priority = 1
+            Priority = 1,
+            FramePeriod = jobConfiguration.MovementPeriod
         });
 
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[UPDATE HUD]",
-            Duration = jobConfiguration.HUDJobDuration,
+            Duration = jobConfiguration.HUDDuration,
             Execute = UpdateHUD,
-            Priority = 2
+            Priority = 2,
+            FramePeriod = jobConfiguration.HUDPeriod
         });
 
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[PROXIMITY ALERT]",
-            Duration = jobConfiguration.ProximityJobDuration,
+            Duration = jobConfiguration.ProximityDuration,
             Execute = CheckDistanceToEnemyPlanes,
-            Priority = 3
+            Priority = 3,
+            FramePeriod = jobConfiguration.ProximityPeriod
         });
 
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[LOW ALTITUDE]",
-            Duration = jobConfiguration.AltitudeJobDuration,
+            Duration = jobConfiguration.AltitudeDuration,
             Execute = CheckLowAltitude,
-            Priority = 4
+            Priority = 4,
+            FramePeriod = jobConfiguration.AltitudePeriod
         });
 
         _jobsController.SetupJob(new RTSJob
         {
             Name = "[LANDING GEAR]",
-            Duration = jobConfiguration.LandingGearJobDuration,
+            Duration = jobConfiguration.LandingGearDuration,
             Execute = CheckLandingGear,
-            Priority = 5
+            Priority = 5,
+            FramePeriod = jobConfiguration.LandingGearPeriod
         });
     }
 

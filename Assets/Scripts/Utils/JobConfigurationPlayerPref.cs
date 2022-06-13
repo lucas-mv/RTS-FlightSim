@@ -1,9 +1,18 @@
 ﻿using System;
 public class JobConfigurationPlayerPref
 {
-    public int MovementJobDuration;
-    public int HUDJobDuration;
-    public int ProximityJobDuration;
-    public int AltitudeJobDuration;
-    public int LandingGearJobDuration;
+    public int MovementDuration;
+    public int MovementPeriod;
+
+    public int HUDDuration;
+    public int HUDPeriod;
+
+    public int ProximityDuration;
+    public int ProximityPeriod;
+
+    public int AltitudeDuration;
+    public int AltitudePeriod;
+
+    public int LandingGearDuration;
+    public int LandingGearPeriod;
 }

@@ -17,7 +17,7 @@ public class ConfigurationSceneController : MonoBehaviour
     private void Update()
     {
         int totalTime = 0;
-        foreach(var job in _jobConfigurationSliders) totalTime += job.GetValue();
+        foreach(var job in _jobConfigurationSliders) totalTime += job.GetDurationValue();
 
         _jobConfigurationText.text = totalTime > 100 ?
             "Some jobs will not be executed" :
@@ -26,15 +26,25 @@ public class ConfigurationSceneController : MonoBehaviour
 
     public void OnStartGameClick()
     {
-        PlayerPrefs.SetString(Constants.JOB_CONFIGURATIONS_PLAYER_PREFS_KEY,
-            JsonUtility.ToJson(new JobConfigurationPlayerPref
-            {
-                MovementJobDuration = _jobConfigurationSliders[MOVEMENT_JOB_INDEX].GetValue(),
-                HUDJobDuration = _jobConfigurationSliders[HUD_JOB_INDEX].GetValue(),
-                ProximityJobDuration = _jobConfigurationSliders[PROXIMITY_JOB_INDEX].GetValue(),
-                AltitudeJobDuration = _jobConfigurationSliders[ALTITUDE_JOB_INDEX].GetValue(),
-                LandingGearJobDuration = _jobConfigurationSliders[LANDING_GEAR_JOB_INDEX].GetValue()
-            }));
+        var jobsConfiguration = new JobConfigurationPlayerPref
+        {
+            MovementDuration = _jobConfigurationSliders[MOVEMENT_JOB_INDEX].GetDurationValue(),
+            MovementPeriod = _jobConfigurationSliders[MOVEMENT_JOB_INDEX].GetPeriodValue(),
+
+            HUDDuration = _jobConfigurationSliders[HUD_JOB_INDEX].GetDurationValue(),
+            HUDPeriod = _jobConfigurationSliders[HUD_JOB_INDEX].GetPeriodValue(),
+
+            ProximityDuration = _jobConfigurationSliders[PROXIMITY_JOB_INDEX].GetDurationValue(),
+            ProximityPeriod = _jobConfigurationSliders[PROXIMITY_JOB_INDEX].GetPeriodValue(),
+
+            AltitudeDuration = _jobConfigurationSliders[ALTITUDE_JOB_INDEX].GetDurationValue(),
+            AltitudePeriod = _jobConfigurationSliders[ALTITUDE_JOB_INDEX].GetPeriodValue(),
+
+            LandingGearDuration = _jobConfigurationSliders[LANDING_GEAR_JOB_INDEX].GetDurationValue(),
+            LandingGearPeriod = _jobConfigurationSliders[LANDING_GEAR_JOB_INDEX].GetPeriodValue()
+        };
+        var jobsConfigurationJSON = JsonUtility.ToJson(jobsConfiguration);
+        PlayerPrefs.SetString(Constants.JOB_CONFIGURATIONS_PLAYER_PREFS_KEY, jobsConfigurationJSON);
         SceneController.StartGameScene();
     }
 }
