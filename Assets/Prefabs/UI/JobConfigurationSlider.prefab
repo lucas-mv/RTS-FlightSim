@@ -618,7 +618,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 125.46, y: 30}
+  m_SizeDelta: {x: 81.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3098677287100791398
 CanvasRenderer:
@@ -659,7 +659,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Priotity 999
 --- !u!1 &7500519282067747228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,7 +1240,7 @@ MonoBehaviour:
   _name: slider name
   _baseValue: 20
   _priority: 0
-  _framePeriodOptions: 5
+  _framePeriodOptions: 10
   _nameText: {fileID: 7869452662973765245}
   _valueText: {fileID: 7869452662690285626}
   _priorityText: {fileID: 2526955506488997555}
@@ -1500,7 +1500,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1317922588803621163
 CanvasRenderer:

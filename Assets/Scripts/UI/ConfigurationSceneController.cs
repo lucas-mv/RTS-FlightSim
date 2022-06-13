@@ -20,7 +20,7 @@ public class ConfigurationSceneController : MonoBehaviour
         foreach(var job in _jobConfigurationSliders) totalTime += job.GetDurationValue();
 
         _jobConfigurationText.text = totalTime > 100 ?
-            "Some jobs will not be executed" :
+            "Some jobs may not be executed" :
             "All jobs will be executed";
     }
 
