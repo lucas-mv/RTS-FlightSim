@@ -8,7 +8,8 @@ public class EnemyPlaneController : MonoBehaviour
     [SerializeField] float _enemyPlaneBaseSpeed;
     [SerializeField] int _numberOfEnemyPlanes;
     [SerializeField] EnemyPlane _enemyPlanePrefab;
-    [SerializeField] Transform[] _routingPoints;
+    [SerializeField] Transform[] _sourceRoutingPoints;
+    [SerializeField] Transform[] _targetRoutingPoints;
     [SerializeField] GameObject _enemyPlanesContainer;
 
     int _speedSeed = 0;
@@ -39,9 +40,8 @@ public class EnemyPlaneController : MonoBehaviour
 
     private void BuildRoute(EnemyPlane enemyPlane)
     {
-        Transform source = _routingPoints[Random.Range(0, _routingPoints.Length)];
-        Transform[] targets = _routingPoints.Where(x => x != source).ToArray();
-        Transform target = targets[Random.Range(0, targets.Length)];
+        Transform source = _sourceRoutingPoints[Random.Range(0, _sourceRoutingPoints.Length)];
+        Transform target = _targetRoutingPoints[Random.Range(0, _targetRoutingPoints.Length)];
         enemyPlane.SetupRoute(source, target, _enemyPlaneBaseSpeed, _speedSeed);
         _speedSeed++;
     }
