@@ -454,7 +454,9 @@ public class Plane : MonoBehaviour {
 
         const float referenceDistance = 1000;
         float enemyDistance = _enemyPlaneController.CalculateClosestDistance(transform.position, referenceDistance);
-        if(enemyDistance < referenceDistance)
+        bool proximityAlert = enemyDistance < referenceDistance;
+        Helpers.SetHardwareProximityAlert(proximityAlert);
+        if (proximityAlert)
         {
             _proximityAlertText.color = _displayAlertColor;
             _proximityAlertText.text = "PLANE PROXIMITY ALERT";
@@ -495,7 +497,9 @@ public class Plane : MonoBehaviour {
         _lowAltitudeAlertText.text = string.Empty;
 
         const float lowAltitudeAlertY = 400;
-        if(_transform.position.y < lowAltitudeAlertY)
+        bool lowAltitude = _transform.position.y < lowAltitudeAlertY;
+        Helpers.SetHardwareAltitudeAlert(lowAltitude);
+        if (lowAltitude)
         {
             _lowAltitudeAlertText.color = _displayAlertColor;
             _lowAltitudeAlertText.text = "LOW ALTITUDE";

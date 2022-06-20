@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 
 public static class Helpers
 {
@@ -18,5 +19,15 @@ public static class Helpers
     public static int LeastCommonMultiple(int[] numbers)
     {
         return numbers.Aggregate((S, val) => S * val / gcd(S, val));
+    }
+
+    public static void SetHardwareAltitudeAlert(bool alertValue)
+    {
+        PlayerPrefs.SetInt(Constants.PLANE_ALERT_ALTITUDE, alertValue ? 1 : 0);
+    }
+
+    public static void SetHardwareProximityAlert(bool alertValue)
+    {
+        PlayerPrefs.SetInt(Constants.PLANE_ALERT_PROXIMITY, alertValue ? 1 : 0);
     }
 }
