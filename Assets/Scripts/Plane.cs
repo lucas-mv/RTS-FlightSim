@@ -284,6 +284,10 @@ public class Plane : MonoBehaviour {
 
         Rigidbody.AddRelativeTorque(new Vector3((liftForceMagnitude + controlInput.x * Mathf.Abs(liftForceMagnitude)) * liftStabilityTorque, 0, 0));
         Rigidbody.AddRelativeTorque(new Vector3(0, (rudderLiftForceMagnitude + controlInput.y * Mathf.Abs(rudderLiftForceMagnitude)) * rudderStabilityTorque, 0));
+
+        //new logic for yaw based on the angle of the airplane
+        Rigidbody.AddRelativeTorque(new Vector3(0, 0, 1) * AngleOfAttackYaw * liftForceMagnitude * 100);
+        Rigidbody.AddForce(new Vector3(1, 0, 0) * _transform.rotation.z * -10 * liftForceMagnitude);
     }
 
     void UpdateAngularDrag() {
